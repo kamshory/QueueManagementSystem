@@ -10,6 +10,7 @@ var queue;
 window.onload = function()
 {
 	queue = new PlanetQueue('#atomicaudio', ['#audio1', '#audio2', '#audio3', '#audio4']);
+	queue.baseAudioSrc = 'audio/';
 	// preload files
 	queue.preload('nomor-antrian.mp3', 'ke-counter.mp3', [1, 40]);
 	// define customer source
@@ -17,6 +18,7 @@ window.onload = function()
 	// define counter source
 	queue.setSrcCounter('ke-counter.mp3');
 	
+	// override onExecuteQueue
 	queue.onExecuteQueue = function(customer, counter)
 	{
 		document.querySelector('.status').innerHTML = 'NOMOR ANTRIAN '+customer+' KE COUNTER '+counter;
@@ -27,6 +29,7 @@ window.onload = function()
 			document.querySelector('.'+cls).className += ' q-executed';
 		}
 	};
+	// override onAddQueue
 	queue.onAddQueue = function(customer, counter)
 	{
 		var child = document.createElement('tr');
@@ -40,9 +43,9 @@ window.onload = function()
 	// customer queue number
 	// counter number
 	// repeat (default = 2)
-	queue.addQueue(2, 5, 2)
-		.addQueue(3, 4, 2)
-		.addQueue(4, 1, 2)
+	queue.addQueue(118, 5, 2)
+		.addQueue(119, 4, 2)
+		.addQueue(120, 1, 2)
 		.addQueue(5, 3, 2)
 		.playQueue();
 	
@@ -54,7 +57,11 @@ window.onload = function()
 		.playQueue();
 	
 	// Single queue
-	queue.addQueue(17, 1, 2)
+	queue.addQueue(51, 1, 2)
+		.addQueue(51, 6, 2)
+		.addQueue(52, 3, 2)
+		.addQueue(53, 5, 2)
+		.addQueue(54, 4, 2)
 		.playQueue();
 }
 </script>
