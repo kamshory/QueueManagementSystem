@@ -47,22 +47,6 @@ function PlanetQueue(container, controlers)
 			}
 		);
 	};
-	this.afterPlayAll = function()
-	{
-	};
-	this.onExecuteQueue = function(customer, counter)
-	{
-	};
-	this.onAddQueue = function(customer, counter)
-	{
-	};
-	this.setAudio = function(index, src)
-	{
-		if(typeof this.controlers[index] != 'undefined')
-		{
-			atom.container.querySelector(atom.controlers[index]).setAttribute('src', atom.baseAudioSrc+src);
-		}
-	};
 	this.playAll = function(source)
 	{
 		source = source || [];
@@ -119,6 +103,13 @@ function PlanetQueue(container, controlers)
 	{ 
 		this.container.querySelector(selector).play();
 	};
+	this.setAudio = function(index, src)
+	{
+		if(typeof this.controlers[index] != 'undefined')
+		{
+			atom.container.querySelector(atom.controlers[index]).setAttribute('src', atom.baseAudioSrc+src);
+		}
+	};
 	this.setSrcCustomer = function(src)
 	{
 		this.setAudio(0, src);
@@ -160,8 +151,8 @@ function PlanetQueue(container, controlers)
 	};
 	this.preload = function(customerSrc, counterSrc, numberRange)
 	{
-		atom.audioFiles.push(customerSrc);
-		atom.audioFiles.push(counterSrc);
+		atom.audioFiles.push(atom.baseAudioSrc+customerSrc);
+		atom.audioFiles.push(atom.baseAudioSrc+counterSrc);
 		var i, url, src;
 		for(i = numberRange[0]; i<=numberRange[1]; i++)
 		{
@@ -195,26 +186,6 @@ function PlanetQueue(container, controlers)
 		{
 		}
 	};
-	HTMLElement = typeof(HTMLElement) != 'undefined' ? HTMLElement : Element;
-	HTMLElement.prototype.prependChild = function(element) 
-	{
-		if(this.firstChild) 
-		{
-			return this.insertBefore(element, this.firstChild);
-		} 
-		else {
-			return this.appendChild(element);
-		}
-	};
-	String.prototype.lpad = function(padString, length) 
-	{
-		var str = this;
-		while (str.length < length)
-		{
-				str = padString + str;
-		}
-		return str;
-	}
 	this.addQueue = function(customer, counter, repeat)
 	{
 		repeat = repeat || 2;
@@ -250,6 +221,37 @@ function PlanetQueue(container, controlers)
 		{
 		}
 	};
+	this.afterPlayAll = function()
+	{
+	};
+	this.onExecuteQueue = function(customer, counter)
+	{
+	};
+	this.onAddQueue = function(customer, counter)
+	{
+	};
+
 	var atom = this;
 	this.init();
+	HTMLElement = typeof(HTMLElement) != 'undefined' ? HTMLElement : Element;
+	HTMLElement.prototype.prependChild = function(element) 
+	{
+		if(this.firstChild) 
+		{
+			return this.insertBefore(element, this.firstChild);
+		} 
+		else {
+			return this.appendChild(element);
+		}
+	};
+	String.prototype.lpad = function(padString, length) 
+	{
+		var str = this;
+		while (str.length < length)
+		{
+				str = padString + str;
+		}
+		return str;
+	}
+	
 }
