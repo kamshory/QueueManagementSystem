@@ -1,3 +1,10 @@
+/*
+Queue Management System
+Create by Kamshory
+=====================================================================================
+This library will play audio queue. Each queue will play 4 audio files synchronously.
+No jQuery required but if you will use jQuery for your own code, it is OK.
+*/
 function PlanetQueue(container, controlers)
 {
 	this.controlers = controlers;
