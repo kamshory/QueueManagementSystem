@@ -5,10 +5,11 @@ Create by Kamshory
 This library will play audio queue. Each queue will play 4 audio files synchronously.
 No jQuery required but if you will use jQuery for your own code, it is OK.
 */
-function PlanetQueue(container, controlers)
+function PlanetQueue(container, controlers, bell)
 {
 	this.controlers = controlers;
 	this.container = document.querySelector(container);
+	this.bell = document.querySelector(bell);
 	this.numberLength = 3;
 	this.status = 0;
 	this.loaded = 0;
@@ -44,6 +45,11 @@ function PlanetQueue(container, controlers)
 			function(e){
 				this.status = 0;
 				atom.afterPlayAll();
+			}
+		);
+		this.bell.addEventListener('ended', 
+			function(e){
+				atom.afterPlayBell();
 			}
 		);
 	};
@@ -117,6 +123,10 @@ function PlanetQueue(container, controlers)
 	this.setSrcCounter = function(src)
 	{
 		this.setAudio(2, src);
+	}
+	this.setSrcBell = function(src)
+	{
+		this.bell.setAttribute('src', atom.baseAudioSrc+src);
 	}
 	this.customer = function(number)
 	{
@@ -197,6 +207,25 @@ function PlanetQueue(container, controlers)
 		atom.onAddQueue(customer, counter);
 		return this;
 	};
+	this.bellAndPlayQueue = function()
+	{
+	};
+	this.playBellAndQueue = function()
+	{
+		if(this.isPlayingAll())
+		{
+			this.afterPlayBell();
+		}
+		else
+		{
+			if(this.isPlaying(this.bell))
+			{
+				this.bell.pause();
+				this.bell.currentTime = 0;
+			}
+			this.bell.play();
+		}
+	};
 	this.playQueue = function()
 	{
 		if(!atom.isPlayingAll())
@@ -222,6 +251,9 @@ function PlanetQueue(container, controlers)
 		}
 	};
 	this.afterPlayAll = function()
+	{
+	};
+	this.afterPlayBell = function()
 	{
 	};
 	this.onExecuteQueue = function(customer, counter)

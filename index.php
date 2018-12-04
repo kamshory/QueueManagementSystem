@@ -9,7 +9,7 @@
 var queue;
 window.onload = function()
 {
-	queue = new PlanetQueue('#atomicaudio', ['#audio1', '#audio2', '#audio3', '#audio4']);
+	queue = new PlanetQueue('#atomicaudio', ['#audio1', '#audio2', '#audio3', '#audio4'], '#bell');
 	queue.baseAudioSrc = 'audio/';
 	// preload files
 	queue.preload('nomor-antrian.mp3', 'ke-counter.mp3', [1, 40]);
@@ -17,6 +17,8 @@ window.onload = function()
 	queue.setSrcCustomer('nomor-antrian.mp3');
 	// define counter source
 	queue.setSrcCounter('ke-counter.mp3');
+	// define bell source
+	queue.setSrcBell('bell.mp3');
 	
 	// override onExecuteQueue
 	queue.onExecuteQueue = function(customer, counter)
@@ -38,31 +40,29 @@ window.onload = function()
 		child.innerHTML = '<td>'+customer+'</td><td>'+counter+'</td>';
 		document.querySelector('.queue-list').querySelector('tbody').prependChild(child);
 	};
+	queue.afterPlayBell = function()
+	{
+		queue.playQueue();
+	};
 	
 	// Add queue
 	// customer queue number
 	// counter number
 	// repeat (default = 2)
-	queue.addQueue(118, 5, 2)
-		.addQueue(119, 4, 2)
-		.addQueue(120, 1, 2)
+	queue.addQueue(138, 12, 2)
 		.addQueue(5, 3, 2)
-		.playQueue();
+		.playBellAndQueue();
 	
 	// You can add more queue while previouse file is playing
 	// Multiple queue
 	queue.addQueue(12, 6, 2)
-		.addQueue(14, 5, 2)
 		.addQueue(13, 7, 2)
-		.playQueue();
+		.playBellAndQueue();
 	
 	// Single queue
 	queue.addQueue(51, 1, 2)
-		.addQueue(51, 6, 2)
-		.addQueue(52, 3, 2)
-		.addQueue(53, 5, 2)
 		.addQueue(54, 4, 2)
-		.playQueue();
+		.playBellAndQueue();
 }
 </script>
 <style type="text/css">
@@ -114,6 +114,7 @@ window.onload = function()
     <audio id="audio2"></audio>
     <audio id="audio3"></audio>
     <audio id="audio4"></audio>
+    <audio id="bell"></audio>
 </div>
 </body>
 </html>
