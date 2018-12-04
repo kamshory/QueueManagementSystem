@@ -63,16 +63,50 @@ window.onload = function()
 	queue.addQueue(51, 1, 2)
 		.addQueue(54, 4, 2)
 		.playBellAndQueue();
+		
+	initVideo('video.video');	
+}
+var videoList = [
+	'video/video1.mp4',
+	'video/video2.mp4',
+	'video/video3.mp4',
+	'video/video4.mp4'
+];
+function initVideo(selector)
+{
+	document.querySelector(selector).addEventListener('ended', function(e){
+		playVideo(selector);
+	});
+	playVideo(selector);
+}
+function playVideo(selector)
+{
+	var index = parseInt(document.querySelector(selector).getAttribute('data-index'));
+	var num = videoList.length;
+	var cur = index;
+	document.querySelector(selector).setAttribute('src', videoList[cur]);
+	var next = (cur+1) % num;
+	document.querySelector(selector).setAttribute('data-index', next);
+	document.querySelector(selector)
+	document.querySelector(selector).play();
 }
 </script>
 <style type="text/css">
+body{
+	margin:0;
+	padding:0;
+	background-color:#09F;
+	background:url(image/image.jpg) no-repeat center center;
+	background-size:cover;
+	font-family:Verdana, Geneva, sans-serif;
+}
 .queue-list{
 	border-collapse:collapse;
 }
 .queue-list td{
 	padding:10px 10px;
-	font-size:2.5vw;
 	text-align:center;
+	font-size:36px;
 }
 .queue-list thead{
 	background-color:#930;
@@ -90,12 +124,53 @@ window.onload = function()
     filter: grayscale(100%);
 }
 .list-container{
+}
+.all {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    height: calc(100vh - 40px);
+    overflow: hidden;
+}
+
+.list-container{
+	float:right;
+	width:400px;
+	height:calc((100vw - 460px) * 9 / 16);
+	background-color:#EEEEEE;
 	overflow:hidden;
+}
+.list-container table{
+	width:100%;
+	box-sizing:border-box;
+	overflow:hidden;
+}
+.video-container{
+	background-color:#FFFFFF;
+}
+.video{
+	width:calc(100vw - 460px);
+	height:calc((100vw - 460px) * 9 / 16);
+}
+.status-bar{
+	padding:20px 0px;
+	background-color:#000;
+	color:#FFFFFF;
+	display:table-column;
+	vertical-align:middle;
+	font-size:36px;
+	position:absolute;
+	bottom:20px;
+	width:100%;
+	left:0;
+	text-align:center;
 }
 </style>
 </head>
 
 <body>
+
+<div class="all">
 <div class="list-container">
 <table class="queue-list">
 	<thead>
@@ -108,13 +183,22 @@ window.onload = function()
     </tbody>
 </table>
 </div>
+
+<div class="video-container video">
+<video data-index="0" class="video" muted="muted" poster="image/poster.png" controls></video>
+</div>
+
+<div class="status-bar">
 <div class="status">&nbsp;</div>
+</div>
+
 <div id="atomicaudio" style="position:absolute; left:-10000px; top:-10000px;">
     <audio id="audio1"></audio>
     <audio id="audio2"></audio>
     <audio id="audio3"></audio>
     <audio id="audio4"></audio>
     <audio id="bell"></audio>
+</div>
 </div>
 </body>
 </html>
